@@ -1,0 +1,5 @@
+# 测速结果缓存（含渠道 request_id，不入库）
+.cache.json
+*.log
+node_modules/
+.DS_Store
