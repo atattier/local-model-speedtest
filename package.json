@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atattier/local-model-speedtest.git"
+  },
+  "homepage": "https://github.com/atattier/local-model-speedtest#readme",
+  "bugs": {
+    "url": "https://github.com/atattier/local-model-speedtest/issues"
+  },
   "main": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",

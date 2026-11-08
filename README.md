@@ -1,6 +1,10 @@
 # 模型测速（local-model-speedtest）
 
-点一下就给某个模型测一次真实速度：**首字延迟 + 生成速度 t/s**。按渠道分组，组名可一键测全部。
+点一下就给某个模型测一次真实速度：**首字延迟 + 生成速度 t/s**。按渠道分组，组名右侧一键测全组。
+
+![模型选择器里的分组测速按钮](assets/model-menu.png)
+
+仓库：<https://github.com/atattier/local-model-speedtest>
 
 ## 两个入口
 
@@ -17,6 +21,8 @@
 - 点分组标题上的「测本组」→ 一次测完同渠道全部模型（并发 2）
 - 结果缓存，刷新后还在
 
+![点「测本组」后的状态](assets/model-menu-running.png)
+
 ## 怎么测的
 
 - 发一句固定短句，要求模型原样复述；普通模型 `maxTokens=160`，思考模型自动放宽到 `384`（否则 160 个 token 全被“想”掉，正文根本出不来）
@@ -29,15 +35,27 @@
 ## 接口（桌面端浏览器半身用的）
 
 - `GET  /plugins/local-model-speedtest/catalog` → `{groups:[{provider,name,models:[...]}], models:[...]}`
-- `POST /plugins/local-model-speedtest/bench` → `{provider, model}`，返回 `{ok, firstMs, tps, tokens, totalMs}`
+- `POST /plugins/local-model-speedtest/bench` → `{provider, model}`，返回 `{ok, firstMs, contentFirstMs, reasoningMs, isReasoning, tps, tokens, totalMs}`
 
 ## 装 / 卸
 
-装在 web profile：`dsh plugin --profile web add /root/.dsh/dsh-go/plugins/local-model-speedtest`
+从 GitHub 安装（网页版 / 其他命令行 profile）：
+
+```bash
+dsh plugin --profile web add github:atattier/local-model-speedtest
+```
+
+桌面版：在应用内 **设置 → 插件** 里添加这个 GitHub 地址，或等插件市场上架后直接在市场里安装。桌面 profile 由应用自己管理，应用运行期间不要用命令行改。
+
+装完刷新页面或重启应用；模型选择器里出现 ⚡ 即生效。
 
 卸载：
-1. `dsh plugin --profile web remove local-model-speedtest`
-2. 删掉这个目录
+
+```bash
+dsh plugin --profile web remove local-model-speedtest
+```
+
+桌面版在插件页里卸载。
 
 ## 注意
 
