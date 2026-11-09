@@ -1,6 +1,6 @@
 {
   "name": "local-model-speedtest",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "type": "module",
   "description": "在 DSH 模型选择器里一键测速，并在对话报错处用大白话解释失败原因（桌面端）。",
