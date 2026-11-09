@@ -1,9 +1,10 @@
 # 更好的用户体验（local-model-speedtest）
 
-给 DSH 加两个小功能：
+给 DSH 加三个小功能：
 
-1. **模型测速**：点一下就知道某个模型的首字延迟和生成速度，支持按渠道一次测全组。
+1. **模型测速**：点一下就知道某个模型的首字延迟和生成速度，支持按渠道一次测全组；⚡ 旁边还标出视觉/文本与上下文长度。
 2. **报错大白话解释**（仅 DSH 桌面端）：对话某一轮失败时，报错旁边多一个「大白话解释」按钮，让模型把原始报错翻译成「原因 + 你可以怎么做」。
+3. **检查更新**：设置页「更好的用户体验」里一个按钮，自动比对 GitHub 上的最新版本，发现新版本时给出更新命令。
 
 仓库：<https://github.com/atattier/local-model-speedtest>
 
@@ -58,11 +59,24 @@
 - 只给 **DSH 桌面端（Electron）** 加载；网页版和手机端不会出现这个按钮
 - 「任务已停止」「账号已退出」这类非模型错误不显示按钮
 
+## 功能三：检查更新
+
+设置页里多一节 **更好的用户体验**：
+
+- 打开这一节就自动检查一次；也可以点 **检查更新** 强制重新检查
+- 逻辑：读取本地 `package.json` 的版本，和 GitHub 仓库 master 上的 `package.json` 比对
+- 已是最新显示绿色「已是最新版本」；有新版本显示版本号、更新命令和「复制」按钮
+- 更新命令形如 `git -C "<插件目录>" pull`，执行后重启 DSH 即可
+- 检查结果在 host 端缓存 10 分钟，避免每次打开设置都联网
+- 没网或 GitHub 打不开时显示「检查失败：…」，不影响其他功能
+
 ## 接口（桌面端浏览器半身用的）
 
 - `GET  /plugins/local-model-speedtest/catalog` → `{groups:[{provider,name,models:[{id,name,free}]}], models:[...]}`
 - `POST /plugins/local-model-speedtest/bench` → `{provider, model}`，返回 `{ok, firstMs, contentFirstMs, reasoningMs, isReasoning, tps, tokens, totalMs}`
 - `POST /plugins/local-model-speedtest/explain` → `{provider, model, message, code}`，返回 `{ok, text}`；`provider/model` 是解释用的模型
+- `POST /plugins/local-model-speedtest/meta` → `{items:[{provider, model}]}`，返回每个模型的 `{vision, contextWindow}`
+- `GET  /plugins/local-model-speedtest/update` → `{current, latest, updateAvailable, url, dir, checkedAt, error?}`
 
 ## 装 / 卸
 
@@ -86,7 +100,7 @@ dsh plugin --profile web remove local-model-speedtest
 
 ## 注意
 
-- 测一次会消耗对应渠道一次额度（普通模型约 160 tokens，思考模型最多约 384）；配额耗尽的渠道直接显示失败原因。
+- 测一次会消耗对应渠道一次额度（取样测速，通常几十个 token）；配额耗尽的渠道直接显示失败原因。
 - 分组测速是后台任务，不受单次 60 秒限制；点「停止测速」保留已完成结果。
 - 结果缓存在插件目录的 `.cache.json`（手机）和浏览器 localStorage（网页）。
 - 缓存结果 **1 小时后自动标记为过期**：模型名旁的结果会变淡并带「旧」字/时间提示，点 ⚡ 重测即可刷新。
