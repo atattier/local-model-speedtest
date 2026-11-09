@@ -54,6 +54,31 @@
           "icon": "bolt",
           "panel": "speedtest"
         }
+      ],
+      "composer.actions": [
+        {
+          "id": "openSpeedtest",
+          "label": {
+            "zh": "⚡ 测速",
+            "en": "⚡ Speed"
+          },
+          "icon": "bolt",
+          "effect": {
+            "type": "open",
+            "page": "panel:speedtest"
+          }
+        }
+      ],
+      "composer.tools": [
+        {
+          "id": "toolSpeedtest",
+          "label": {
+            "zh": "测速",
+            "en": "Speed"
+          },
+          "icon": "bolt",
+          "panel": "speedtest"
+        }
       ]
     }
   }
