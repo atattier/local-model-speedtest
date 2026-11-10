@@ -74,6 +74,7 @@
 | ⚡ 模型测速与能力标签 | 启用模型测速（总开关）；分组测试「测本组」；大分组分段测试；每段模型数（10 / 20 / 50）；显示视觉/文本与上下文 |
 | 💬 报错大白话解释 | 显示「大白话解释」按钮（仅桌面端） |
 | 🔄 检查更新 | 检查更新按钮与版本信息 |
+| ⭐ 点亮 Star | 结合本机测速统计与实时 GitHub Star 数，一键直达仓库点亮星星（顶部标题栏也有快捷按钮） |
 
 - 总开关关掉后，模型列表恢复原样，不再显示 ⚡、测速药丸和分组按钮；能力标签是同一张卡片里的独立开关，不受总开关影响
 - 分组测试、分段测试是模型测速的子选项，总开关关掉时自动置灰
@@ -89,7 +90,7 @@
 - `POST /plugins/local-model-speedtest/bench` → `{provider, model}`，返回 `{ok, firstMs, contentFirstMs, reasoningMs, isReasoning, tps, tokens, totalMs}`
 - `POST /plugins/local-model-speedtest/explain` → `{provider, model, message, code}`，返回 `{ok, text}`；`provider/model` 是解释用的模型
 - `POST /plugins/local-model-speedtest/meta` → `{items:[{provider, model}]}`，返回每个模型的 `{vision, contextWindow}`
-- `GET  /plugins/local-model-speedtest/update` → `{current, latest, updateAvailable, url, dir, checkedAt, error?}`
+- `GET  /plugins/local-model-speedtest/update` → `{current, latest, stars, updateAvailable, url, dir, checkedAt, error?}`
 
 ## 装 / 卸
 
